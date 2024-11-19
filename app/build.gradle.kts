@@ -3,6 +3,10 @@ plugins {
 }
 
 android {
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/INDEX.LIST")
+    }
     namespace = "com.example.hospitalfinder"
     compileSdk = 34
 
@@ -35,7 +39,7 @@ android {
 }
 
 dependencies {
-
+    // Existing dependencies from your project
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -46,4 +50,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Google Speech-to-Text API and Google Auth Library
+    implementation("com.google.cloud:google-cloud-speech:2.0.4")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.10.0")
+
+    // Core library for runtime permissions
+    implementation("androidx.core:core-ktx:1.10.1")
 }

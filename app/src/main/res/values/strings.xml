@@ -9,4 +9,17 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="health_care_services">Health Care Services</string>
+    <string name="top_doctors">Top Doctors</string>
+    <string name="hospital_finder_label">Hospital Finder</string>
+    <string name="registration_label">Registration</string>
+    <string name="username_hint">Username</string>
+    <string name="emergency_button_label">Emergency</string>
+    <string name="buy_medicine">Buy Medicine</string>
+    <string name="health_services">Health Services</string>
+    <string name="lab_test">LAB TEST</string>
+    <string name="find_doctor">FIND DOCTOR</string>
+    <string name="nearby_hospital">NEARBY HOSPITAL</string>
+    <string name="order_details">ORDER DETAILS</string>
+    <string name="logout">LOGOUT</string>
 </resources>

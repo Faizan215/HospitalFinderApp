@@ -1,30 +1,18 @@
 package com.example.hospitalfinder.ui.login;
 
-import android.app.Activity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
+
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.hospitalfinder.HomeActivity;
 import com.example.hospitalfinder.R;
 import com.example.hospitalfinder.RegisterActivity;
-import com.example.hospitalfinder.ui.login.LoginViewModel;
-import com.example.hospitalfinder.ui.login.LoginViewModelFactory;
-import com.example.hospitalfinder.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
     EditText edUsername, edPassword;
@@ -36,21 +24,31 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        edUsername = findViewById(R.id.editTextText);
+        edUsername = findViewById(R.id.editTextAppFullName);
         edPassword = findViewById(R.id.editTextTextPassword);
         btn = findViewById(R.id.button);
         tv = findViewById(R.id.textView4);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) { // Corrected method name
-                String username = edUsername.getText().toString();
+            public void onClick(View view) {  startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                /*String username = edUsername.getText().toString();
                 String password = edPassword.getText().toString();
-                if (username.length() == 0 || password.length() == 0) {
+                Database db = new Database(getApplicationContext(), "hospital finder", null, 1);
+                if (username.isEmpty() || password.isEmpty()) {
                     Toast.makeText(LoginActivity.this, "Please enter username and password", Toast.LENGTH_SHORT).show();
                 } else {
+                    if(db.login(username,password)==1){
                     Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                }
+                        SharedPreferences sharedPreferences = getSharedPreferences("shared_prefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", username);
+                        editor.apply();
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                }else{
+                        Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    }
+                    }*/
             }
         });
         tv.setOnClickListener(new View.OnClickListener() {

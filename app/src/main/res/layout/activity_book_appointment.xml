@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
-    android:background="@drawable/img_1">
+    android:background="@drawable/img_4"
+    tools:context=".BookAppointmentActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -18,24 +18,24 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintHorizontal_bias="0.438"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18" />
+        app:layout_constraintVertical_bias="0.078" />
 
     <TextView
         android:id="@+id/textViewAppTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registration"
+        android:text="Book Appointment"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.297" />
+        app:layout_constraintVertical_bias="0.202" />
 
     <EditText
         android:id="@+id/editTextAppFullName"
@@ -62,7 +62,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="Address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="@+id/editTextAppFullName"
         app:layout_constraintHorizontal_bias="0.0"
@@ -75,7 +75,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Contact Number"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/editTextAppAddress"
         app:layout_constraintHorizontal_bias="1.0"
@@ -88,34 +88,60 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Confirm Password"
+        android:hint="Fees"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/editTextAppContactNumber"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editTextAppContactNumber"
         app:layout_constraintTop_toBottomOf="@+id/editTextAppContactNumber" />
 
+
     <Button
         android:id="@+id/buttonBookAppointment"
         android:layout_width="230dp"
         android:layout_height="52dp"
-        android:layout_marginTop="32dp"
-        android:text="Register"
+        android:text="BookAppointment"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAppBack"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.419"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextAppFees"
+        app:layout_constraintVertical_bias="0.769" />
+
+    <Button
+        android:id="@+id/buttonAppBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="208dp"
+        android:text="BACK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextAppFees" />
 
     <TextView
-        android:id="@+id/textViewExistingUser"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Already have an account?"
+        android:text="Select Date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintHorizontal_bias="0.032"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBookAppointment" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextAppFees"></TextView>
 
+    <Button
+        android:id="@+id/buttonAppDate"
+        style="?android:spinnerStyle"
+        android:layout_width="121dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="21/11/2024"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.006"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

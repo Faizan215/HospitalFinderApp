@@ -26,10 +26,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         edUsername = (EditText) findViewById(R.id.username); // Removed extra parenthesis
-        edPassword = findViewById(R.id.editTextRegPassword);
-        edEmail = findViewById(R.id.editTextRegEmail);
-        edConfirmPassword = findViewById(R.id.editTextRegConfirmPassword);
-        btn = findViewById(R.id.buttonRegister);
+        edPassword = findViewById(R.id.editTextAppContactNumber);
+        edEmail = findViewById(R.id.editTextAppAddress);
+        edConfirmPassword = findViewById(R.id.editTextAppFees);
+        btn = findViewById(R.id.buttonBookAppointment);
         tv = findViewById(R.id.textViewExistingUser);
 
         tv.setOnClickListener(new View.OnClickListener() {
