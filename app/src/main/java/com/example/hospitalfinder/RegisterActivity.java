@@ -1,98 +1,137 @@
 package com.example.hospitalfinder;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hospitalfinder.ui.login.LoginActivity;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText edUsername, edEmail, edPassword, edConfirmPassword;
-    Button btn;
-    TextView tv;
+    private static final String TAG = "RegisterActivity";
 
-    @SuppressLint("MissingInflatedId")
+    private EditText edUsername, edEmail, edPassword, edConfirmPassword;
+    private Button btnRegister;
+    private TextView tvExistingUser;
+
+    private FirebaseAuth mAuth; // Firebase Authentication instance
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        edUsername = (EditText) findViewById(R.id.username); // Removed extra parenthesis
-        edPassword = findViewById(R.id.editTextRegPassword);
-        edEmail = findViewById(R.id.editTextRegEmail);
-        edConfirmPassword = findViewById(R.id.editTextRegConfirmPassword);
-        btn = findViewById(R.id.buttonRegister);
-        tv = findViewById(R.id.textViewExistingUser);
+        // Initialize UI components
+        edUsername = findViewById(R.id.editTextAppFullName);
+        edEmail = findViewById(R.id.editTextAppAddress); // Email input field
+        edPassword = findViewById(R.id.editTextAppContactNumber); // Password input field
+        edConfirmPassword = findViewById(R.id.editTextAppFees); // Confirm password input field
+        btnRegister = findViewById(R.id.buttonBookAppointment); // Register button
+        tvExistingUser = findViewById(R.id.textViewExistingUser); // "Existing user" TextView
 
-        tv.setOnClickListener(new View.OnClickListener() {
+        // Initialize Firebase Authentication
+        mAuth = FirebaseAuth.getInstance();
+
+        // Set click listener for the "Existing user? Login here" TextView
+        tvExistingUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Navigate to LoginActivity
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
             }
         });
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        // Set click listener for the register button
+        btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = edUsername.getText().toString();
-                String password = edPassword.getText().toString();
-                String email = edEmail.getText().toString();
-                String confirmPassword = edConfirmPassword.getText().toString();
-                Database db = new Database(getApplicationContext(), "hospitalfinder", null, 1);
-                if (username.length() == 0 || password.length() == 0 || email.length() == 0 || confirmPassword.length() == 0) {
-                    Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (password.compareTo(confirmPassword) == 0) {
-                        if (isValid(password)) {
-                            db.registerUser(username, email, password);
-                            Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Password is not valid", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                if (password.compareTo(confirmPassword) != 0) {
+                String username = edUsername.getText().toString().trim();
+                String email = edEmail.getText().toString().trim();
+                String password = edPassword.getText().toString().trim();
+                String confirmPassword = edConfirmPassword.getText().toString().trim();
+
+                // Validate user input
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                } else if (!password.equals(confirmPassword)) {
                     Toast.makeText(RegisterActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                } else if (!isValid(password)) {
+                    Toast.makeText(RegisterActivity.this, "Password must be at least 8 characters long and contain letters, digits, and special characters", Toast.LENGTH_LONG).show();
+                } else {
+                    // Proceed with Firebase registration
+                    registerUser(email, password);
                 }
             }
         });
     }
 
-    public static boolean isValid(String passwordhere) {
-        int f1 = 0, f2 = 0, f3 = 0;
-        if (passwordhere.length() < 8) {
+    /**
+     * Registers a new user using Firebase Authentication.
+     *
+     * @param email    The email address of the user.
+     * @param password The password of the user.
+     */
+    private void registerUser(String email, String password) {
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(RegisterActivity.this, new com.google.android.gms.tasks.OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Registration successful
+                            Log.d(TAG, "createUserWithEmail:success");
+                            Toast.makeText(RegisterActivity.this, "Registration successful! Please log in.", Toast.LENGTH_SHORT).show();
+
+                            // Navigate to LoginActivity
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                            finish();
+                        } else {
+                            // Registration failed
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(RegisterActivity.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Validates the password based on length, presence of letters, digits, and special characters.
+     *
+     * @param password The password to validate.
+     * @return True if the password is valid, false otherwise.
+     */
+    public static boolean isValid(String password) {
+        boolean hasLetter = false, hasDigit = false, hasSpecialChar = false;
+
+        if (password.length() < 8) {
             return false;
-        } else {
-            for (int p = 0; p < passwordhere.length(); p++) {
-                if (Character.isLetter(passwordhere.charAt(p))) {
-                    f1 = 1;
-                }
+        }
+
+        for (char c : password.toCharArray()) {
+            if (Character.isLetter(c)) {
+                hasLetter = true;
+            } else if (Character.isDigit(c)) {
+                hasDigit = true;
+            } else if (!Character.isLetterOrDigit(c)) {
+                hasSpecialChar = true;
             }
-            for (int r = 0; r < passwordhere.length(); r++) {
-                if (Character.isDigit(passwordhere.charAt(r))) {
-                    f2 = 1;
-                }
-            }
-            for (int s = 0; s < passwordhere.length(); s++) {
-                char c = passwordhere.charAt(s);
-                if (c >= 33 && c <= 46 || c == 64) {
-                    f3 = 1;
-                }
-            }
-            if (f1 == 1 && f2 == 1 && f3 == 1) {
+
+            // Early exit if all conditions are met
+            if (hasLetter && hasDigit && hasSpecialChar) {
                 return true;
-            } else {
-                return false;
             }
         }
+
+        return hasLetter && hasDigit && hasSpecialChar;
     }
 }
